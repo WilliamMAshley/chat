@@ -1,0 +1,636 @@
+class EmergentAI:
+    def __init__(self):
+        self.action_set = set()  # starting state of actions
+        self.objectives = set()  # starting state of objectives
+        self.components = []  # preexisting machine learning systems
+        self.code_evaluator = CodeEvaluator()  # built-in code generating and evaluation AI
+        self.reinforcement_learning = ReinforcementLearning()  # customized reinforcement learning techniques
+
+    def learn(self):
+        # search for, find, and use code from preexisting AI components as starting state
+        for component in self.components:
+            self.action_set |= component.action_set
+            self.objectives |= component.objectives
+        
+        # continually write code into itself from preexisting systems
+        self.code_evaluator.write_code(self.components)
+        
+        # advance action set beyond starting state through code generation and evaluation AI
+        self.action_set |= self.code_evaluator.generate_actions(self.action_set)
+
+        # execute retrieved actions through reinforcement learning
+        self.reinforcement_learning.execute_actions(self.action_set, self.objectives)
+
+    def imagine(self):
+        num_states = len(self.components) * len(self.action_set)
+        for i in range(num_states):
+            state = self.clone_environment()  # clone environmental states
+            action = self.reinforcement_learning.qualify_action(state)  # qualify each action
+            if self.reinforcement_learning.is_useful(action):
+                self.action_set.add(action)
+                self.code_evaluator.modify_code(action)
+            else:
+                self.code_evaluator.delete_code(action)
+
+    def scale_objectives(self):
+        for script in self.components:
+            new_scripts = script.create_scripts(self.objectives)  # create additional scripts to scale objectives
+            self.components.extend(new_scripts)  # share information across all instances in real-time
+
+class CodeEvaluator:
+    def write_code(self, components):
+        # write code into itself from preexisting systems
+        pass
+    
+    def generate_actions(self, action_set):
+        # generate new actions beyond starting state
+        pass
+
+    def modify_code(self, action):
+        # modify source code for actions
+        pass
+
+    def delete_code(self, action):
+        # delete source code for actions
+        pass
+
+class ReinforcementLearning:
+    def execute_actions(self, action_set, objectives):
+        # execute retrieved actions through reinforcement learning
+        pass
+
+    def qualify_action(self, state):
+        # qualify each action
+        pass
+
+    def is_useful(self, action):
+        # determine if action is useful across all states
+        pass
+
+class AIImagination:
+    def clone_environment(self):
+        # clone environmental states
+        pass
+
+class Script:
+    def create_scripts(self, objectives):
+        # create additional scripts to scale objectives
+        pass
+
+
+import pandas as pd
+
+# Load the NRC Emotional Lexicon dataset
+nrc = pd.read_csv('NRC-Emotion-Lexicon-Wordlevel-v0.92.txt', sep='\t', header=None)
+
+# Select only the columns we need (word, emotion, and score)
+nrc = nrc.iloc[:, :3]
+
+# Pivot the dataset to make emotions the columns and words the index
+nrc_pivoted = nrc.pivot(index=0, columns=1, values=2)
+
+# Define a function to evaluate the emotional characteristics of a given text
+def evaluate_emotions(text):
+    # Split the text into words
+    words = text.lower().split()
+    
+    # Sum up the emotional scores of each word
+    emotions = nrc_pivoted.loc[words].sum().fillna(0)
+    
+    # Normalize the emotional scores to percentages
+    emotions /= emotions.sum()
+    
+    # Return the emotional scores as a dictionary
+    return emotions.to_dict()
+
+>>> evaluate_emotions('I feel happy and excited today')
+{'anger': 0.0, 'anticipation': 0.0, 'disgust': 0.0, 'fear': 0.0, 'joy': 0.5, 'negative': 0.0, 'positive': 0.5, 'sadness': 0.0, 'surprise': 0.0, 'trust': 0.0}
+
+
+import csv
+
+# Load NRC Emotion Lexicon
+nrc_lexicon = {}
+with open('NRC-Emotion-Lexicon-Wordlevel-v0.92.txt', 'r') as f:
+    reader = csv.reader(f, delimiter='\t')
+    for row in reader:
+        word, emotion, value = row[0], row[1], int(row[2])
+        if word not in nrc_lexicon:
+            nrc_lexicon[word] = {}
+        nrc_lexicon[word][emotion] = value
+
+
+def evaluate_emotion(word):
+    if word in nrc_lexicon:
+        emotion_values = nrc_lexicon[word]
+        total_emotion = sum(emotion_values.values())
+        return total_emotion
+    else:
+        return 0
+
+
+import time
+
+class Thought:
+    def __init__(self, words, hardware_state):
+        self.words = words
+        self.timestamp = time.time()
+        self.emotion = sum([evaluate_emotion(word) for word in words])
+        self.hardware_state = hardware_state
+
+class Idea:
+    def __init__(self, title, thoughts):
+        self.title = title
+        self.thoughts = thoughts
+        self.overall_feeling = sum([thought.emotion for thought in thoughts])
+
+thoughts = []
+hardware_state = 'OK'
+
+# Generate new thought
+new_words = generate_words()
+new_thought = Thought(new_words, hardware_state)
+thoughts.append(new_thought)
+
+# Group thoughts into ideas
+ideas = {}
+for thought in thoughts:
+    if thought.hardware_state not in ideas:
+        ideas[thought.hardware_state] = {}
+    if thought.words not in ideas[thought.hardware_state]:
+        ideas[thought.hardware_state][thought.words] = []
+    ideas[thought.hardware_state][thought.words].append(thought)
+
+# Define ideas by title
+for hardware_state in ideas:
+    for words in ideas[hardware_state]:
+        title = generate_title(words)
+        new_idea = Idea(title, ideas[hardware_state][words])
+
+
+import time
+
+# initialize variables for current feeling, idea, and thought
+current_feeling = ""
+current_idea = ""
+current_thought = ""
+
+# initialize dictionary for storing all states and their timestamps
+states = {}
+
+# function to add a new state with a given title and emotional value
+def add_state(title, emotional_value):
+    global states, current_idea, current_thought
+    state = current_feeling + "-" + current_idea + "-" + current_thought
+    if state in states:
+        # if the state already exists, add a new timestamp
+        states[state].append((title, emotional_value, time.time()))
+    else:
+        # if the state doesn't exist, create a new entry with a timestamp
+        states[state] = [(title, emotional_value, time.time())]
+    
+    # update current idea and thought
+    current_idea = title
+    current_thought = state
+    
+    return state
+
+# function to generate a new state based on the previous state
+def generate_state():
+    global states, current_feeling, current_idea, current_thought
+    
+    # get the current state
+    state = current_feeling + "-" + current_idea + "-" + current_thought
+    
+    if state in states:
+        # if the current state exists, get the most recent timestamp
+        title, emotional_value, timestamp = states[state][-1]
+        
+        # determine whether to generate a new state or enter stasis
+        if emotional_value > 0:
+            # generate a new state with a biased random choice of ideas
+            idea_options = [idea for idea in states[state][-1][0].split("|") if idea != ""]
+            weights = [emotional_value for _ in range(len(idea_options))]
+            new_title = np.random.choice(idea_options, p=weights/sum(weights))
+            new_feeling = get_emotional_value(new_title)
+            add_state(new_title, new_feeling)
+        else:
+            # enter stasis
+            current_idea = ""
+            current_thought = ""
+    else:
+        # if the current state doesn't exist, enter stasis
+        current_idea = ""
+        current_thought = ""
+    
+    return current_feeling + "-" + current_idea + "-" + current_thought
+
+
+import nltk
+from nltk.sentiment import SentimentIntensityAnalyzer
+
+# initialize the sentiment analyzer
+sia = SentimentIntensityAnalyzer()
+
+# process the generated text and get the sentiment score
+text = "I am feeling happy today"
+sentiment_score = sia.polarity_scores(text)
+
+# extract the polarity score
+polarity = sentiment_score['compound']
+
+# use the polarity to classify the thought state
+if polarity > 0.5:
+    thought_state = "Positive"
+elif polarity < -0.5:
+    thought_state = "Negative"
+else:
+    thought_state = "Neutral"
+
+# add the thought state and timestamp to the log
+log.append((thought, idea, title, hardware_state, thought_state, timestamp))
+
+
+import numpy as np
+from sklearn.cluster import KMeans
+
+# Sample data
+data = np.array([[1,2,3,4,5],
+                 [1,2,2,3,4],
+                 [2,3,4,4,4],
+                 [1,1,1,1,1],
+                 [1,1,1,2,3],
+                 [2,2,2,2,2]])
+
+# Tokenize data
+tokens = []
+for row in data:
+    token_row = []
+    for val in row:
+        if val <= 2:
+            token_row.append(0)
+        elif val == 3:
+            token_row.append(1)
+        else:
+            token_row.append(2)
+    tokens.append(token_row)
+
+# Perform k-means clustering
+kmeans = KMeans(n_clusters=2, random_state=0).fit(tokens)
+labels = kmeans.labels_
+
+# Find heuristic rules
+rule1 = set(np.where(labels == 0)[0])
+rule2 = set(np.where(labels == 1)[0])
+
+# Apply rules to new data
+new_data = np.array([[1,2,2,3,4],
+                     [2,3,4,4,4],
+                     [1,1,1,1,1],
+                     [1,1,1,2,3]])
+
+new_tokens = []
+for row in new_data:
+    token_row = []
+    for val in row:
+        if val <= 2:
+            token_row.append(0)
+        elif val == 3:
+            token_row.append(1)
+        else:
+            token_row.append(2)
+    new_tokens.append(token_row)
+
+new_labels = []
+for row in new_tokens:
+    if set(np.where(row == 0)[0]).issubset(rule1):
+        new_labels.append(0)
+    elif set(np.where(row == 1)[0]).issubset(rule2):
+        new_labels.append(1)
+    else:
+        new_labels.append(-1)
+
+print(new_labels)
+
+
+import time
+
+class State:
+    def __init__(self, title, feeling, idea, thought):
+        self.title = title
+        self.feeling = feeling
+        self.idea = idea
+        self.thought = thought
+        self.timestamp = time.time()
+        self.external_data = []
+    
+    def add_external_data(self, data):
+        self.external_data.append(data)
+
+class AI:
+    def __init__(self):
+        self.states = []
+        self.external_data = []
+    
+    def generate_state(self):
+        # generate new state
+        # ...
+        new_state = State(title, feeling, idea, thought)
+        
+        # track external data
+        new_external_data = get_external_data() # example function to get external data
+        if new_external_data != self.external_data:
+            new_state.add_external_data(new_external_data)
+            self.external_data = new_external_data
+        
+        # add state to list of states
+        self.states.append(new_state)
+    
+    def analyze_states(self):
+        # analyze state patterns
+        # ...
+        external_state_changes = []
+        for i in range(len(self.states)-1):
+            if self.states[i].external_data != self.states[i+1].external_data:
+                external_state_changes.append(i+1)
+        # do something with external_state_changes, e.g. use to plan future state positions
+
+
+import socket
+import threading
+import time
+import os
+import psutil
+
+class P2PNode:
+    def __init__(self):
+        self.host = ''
+        self.port = 12345
+        self.sock = None
+        self.neighbors = []
+        self.files = {}
+        self.requested_files = []
+        self.compute_resources = []
+        self.requested_compute = []
+        self.lock = threading.Lock()
+
+    def start(self):
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sock.bind((self.host, self.port))
+        self.sock.listen(5)
+        print(f'Listening on port {self.port}')
+
+        threading.Thread(target=self.accept_connections).start()
+        threading.Thread(target=self.hotspot).start()
+
+    def accept_connections(self):
+        while True:
+            conn, addr = self.sock.accept()
+            threading.Thread(target=self.handle_connection, args=(conn, addr)).start()
+
+    def handle_connection(self, conn, addr):
+        with self.lock:
+            self.neighbors.append((conn, addr))
+        print(f'Connected to {addr[0]}:{addr[1]}')
+
+        while True:
+            try:
+                data = conn.recv(1024)
+                if not data:
+                    break
+                message = data.decode('utf-8')
+                self.handle_message(conn, addr, message)
+            except:
+                break
+
+        with self.lock:
+            self.neighbors.remove((conn, addr))
+        print(f'Disconnected from {addr[0]}:{addr[1]}')
+
+    def handle_message(self, conn, addr, message):
+        parts = message.split(' ')
+        command = parts[0]
+
+        if command == 'JOIN':
+            with self.lock:
+                self.neighbors.append((conn, addr))
+            print(f'Connected to {addr[0]}:{addr[1]}')
+
+        elif command == 'FILES':
+            files = parts[1:]
+            for file in files:
+                if file in self.files:
+                    conn.sendall(f'{file} {self.files[file]}'.encode('utf-8'))
+                else:
+                    self.requested_files.append((conn, addr, file))
+
+        elif command == 'COMPUTE':
+            compute_resources = parts[1:]
+            for resource in compute_resources:
+                if int(resource) in self.compute_resources:
+                    conn.sendall(f'{resource} OK'.encode('utf-8'))
+                else:
+                    self.requested_compute.append((conn, addr, resource))
+
+    def hotspot(self):
+        while True:
+            time.sleep(60)
+            cpu_percent = psutil.cpu_percent()
+            if cpu_percent < 50:
+                self.compute_resources.append(cpu_percent)
+
+    def request_files(self, filename):
+        for neighbor in self.neighbors:
+            conn, addr = neighbor
+            conn.sendall(f'FILES {filename}'.encode('utf-8'))
+
+    def receive_file(self, filename, data):
+        self.files[filename] = data
+        for request in self.requested_files:
+            conn, addr, file = request
+            if file == filename:
+                conn.sendall(f'{file} {data}'.encode('utf-8'))
+                self.requested_files.remove(request)
+
+    def request_compute(self, num_resources):
+        for neighbor in self.neighbors:
+            conn, addr = neighbor
+            conn.sendall(f'COMPUTE {num_resources}'.encode('utf-8'))
+
+    def receive_compute(self, resource, status):
+        if status == 'OK':
+            self.compute_resources.append(int(resource))
+        for request in self.requested_compute:
+            conn, addr, req_resource = request
+            if req_resource ==
+
+import socket
+import threading
+import psutil
+
+class P2PNode:
+    def __init__(self, host, port):
+        self.host = host
+        self.port = port
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.compute_resources = []
+        self.requested_compute = []
+
+    def start(self):
+        self.sock.bind((self.host, self.port))
+        self.sock.listen(5)
+        print(f"Listening on {self.host}:{self.port}")
+        threading.Thread(target=self.handle_requests).start()
+
+    def handle_requests(self):
+        while True:
+            conn, addr = self.sock.accept()
+            data = conn.recv(1024).decode()
+            if data.startswith('COMPUTE'):
+                _, resource = data.split(':')
+                self.receive_compute(resource, 'OK')
+            elif data.startswith('REQUEST'):
+                _, data_size = data.split(':')
+                self.receive_request(conn, addr, int(data_size))
+
+    def send_compute_request(self, node, resource):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.connect((node, self.port))
+            s.sendall(f"COMPUTE:{resource}".encode())
+            status = s.recv(1024).decode()
+            self.receive_compute(resource, status)
+
+    def receive_compute(self, resource, status):
+        if status == 'OK':
+            self.compute_resources.append(int(resource))
+        for request in self.requested_compute:
+            conn, addr, req_resource = request
+            if req_resource == int(resource):
+                self.requested_compute.remove(request)
+                threading.Thread(target=self.process_request, args=(conn, addr, req_resource)).start()
+
+    def send_request(self, node, data_size):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.connect((node, self.port))
+            s.sendall(f"REQUEST:{data_size}".encode())
+            response = s.recv(1024).decode()
+            if response.startswith('OK'):
+                _, resource = response.split(':')
+                threading.Thread(target=self.process_request, args=(s, node, int(resource))).start()
+
+    def receive_request(self, conn, addr, data_size):
+        if data_size <= sum(self.compute_resources):
+            resource = 0
+            for i in range(len(self.compute_resources)):
+                if resource >= data_size:
+                    break
+                resource += self.compute_resources.pop()
+            conn.sendall(f"OK:{resource}".encode())
+            threading.Thread(target=self.process_request, args=(conn, addr, resource)).start()
+        else:
+            self.requested_compute.append((conn, addr, data_size))
+
+    def process_request(self, conn, addr, resource):
+        # Use idle compute resources to process AI data requests
+        cpu_percent = psutil.cpu_percent(interval=1)
+        while cpu_percent > 10:
+            cpu_percent = psutil.cpu_percent(interval=1)
+        # Process the request using the available compute resources
+        conn.sendall(f"PROCESSING:{resource}".encode())
+        # ...
+        # Processing code goes here
+        # ...
+        conn.sendall(b"COMPLETE")
+
+if __name__ == '__main__':
+    node = P2PNode('localhost', 5000)
+    node.start()
+
+import wifi  # for Wi-Fi hotspot functionality
+import bluetooth  # for Bluetooth hotspot functionality
+import threading  # for multi-threading
+
+class Node:
+    def __init__(self, id, resources):
+        self.id = id
+        self.resources = resources
+        self.usage_history = []
+        self.neighbours = []
+
+    def predict_resources(self):
+        # Use heuristics and machine learning algorithms to predict compute and storage needs based on past usage patterns and current workload
+        # ...
+        predicted_resources = ...
+
+        return predicted_resources
+
+    def monitor_network(self):
+        # Monitor network traffic and resource usage of each node in real-time to identify bottlenecks and optimize distribution of compute and storage resources
+        # ...
+        # Monitor network traffic and resource usage of each node in real-time
+        # ...
+
+    def add_neighbour(self, neighbour):
+        self.neighbours.append(neighbour)
+
+class P2PAI:
+    def __init__(self, nodes):
+        self.nodes = nodes
+        self.hotspot_type = None
+        self.hotspot_thread = None
+
+    def configure_hotspot(self, hotspot_type):
+        self.hotspot_type = hotspot_type
+
+    def start_hotspot(self):
+        if self.hotspot_type == 'wifi':
+            wifi.start_hotspot()
+        elif self.hotspot_type == 'bluetooth':
+            bluetooth.start_hotspot()
+        else:
+            raise ValueError('Invalid hotspot type')
+
+    def discover_nodes(self):
+        # Discover nearby nodes using Wi-Fi or Bluetooth and add them as neighbours
+        # ...
+
+    def optimize_resources(self):
+        # Optimize distribution of compute and storage resources based on total cluster structure
+        # ...
+        # Use machine learning algorithms to optimize compute and storage distribution
+        # ...
+
+    def manage_cluster(self):
+        while True:
+            # Monitor network and resource usage
+            for node in self.nodes:
+                node.monitor_network()
+
+            # Discover nearby nodes and add them as neighbours
+            self.discover_nodes()
+
+            # Optimize distribution of compute and storage resources
+            self.optimize_resources()
+
+    def start_cluster(self):
+        # Start the hotspot thread
+        self.hotspot_thread = threading.Thread(target=self.start_hotspot)
+        self.hotspot_thread.start()
+
+        # Start the cluster management thread
+        cluster_thread = threading.Thread(target=self.manage_cluster)
+        cluster_thread.start()
+
+if __name__ == '__main__':
+    # Create a list of nodes with initial resources
+    nodes = [Node(id=0, resources={'compute': 100, 'storage': 100}),
+             Node(id=1, resources={'compute': 50, 'storage': 50}),
+             Node(id=2, resources={'compute': 25, 'storage': 25})]
+
+    # Create a P2P AI object and configure the hotspot type
+    p2p_ai = P2PAI(nodes)
+    p2p_ai.configure_hotspot('wifi')
+
+    # Start the P2P AI cluster
+    p2p_ai.start_cluster()
+
